@@ -21,5 +21,5 @@ Vagrant::Config.run do |config|
 	config.vm.provision :shell, inline: "sudo mkdir -p /home/vagrant/TeamCity/logs"
 	config.vm.provision :shell, inline: "sudo chown vagrant:vagrant /home/vagrant/TeamCity/ -R"
 	config.vm.provision :shell, inline: "/home/vagrant/TeamCity/bin/teamcity-server.sh start"
-	config.vm.provision :shell, inline: "/home/vagrant/TeamCity/buildAgent/bin/install http://localhost:8111"
+	config.vm.provision :shell, inline: "/home/vagrant/TeamCity/buildAgent/bin/install.sh http://localhost:8111"
 end
