@@ -1,17 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	teamcity_version = "8.0.3"
 
 	config.vm.box = "precise64"
 	config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 	
-	config.vm.customize ["modifyvm", :id,
-                        "--memory", 2048,
-                        "--cpus",     "1"]
-	
+	config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 2048,  "--cpus", "1"]
+  	end
+
 	config.vm.network :bridged, guest: 8111, host: 9000
 	config.vm.provision :shell, inline: "sudo apt-get update -y"
 	config.vm.provision :shell, inline: "sudo apt-get install openjdk-7-jre-headless -y"
