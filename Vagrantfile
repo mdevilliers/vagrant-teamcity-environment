@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--memory", 2048,  "--cpus", "1"]
   	end
 
-	config.vm.network :bridged, guest: 8111, host: 9000
+	config.vm.network :public_network, guest: 8111, host: 9000
 	config.vm.provision :shell, inline: "sudo apt-get update -y"
 	config.vm.provision :shell, inline: "sudo apt-get install openjdk-7-jre-headless -y"
 	config.vm.provision :shell, inline: "wget http://download.jetbrains.com/teamcity/TeamCity-#{teamcity_version}.tar.gz"
