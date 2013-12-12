@@ -5,7 +5,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-	teamcity_version = "8.0.4"
+	teamcity_version = "8.0.5"
 
 	config.vm.box = "precise64"
 	config.vm.box_url = "http://files.vagrantup.com/precise64.box"
@@ -23,5 +23,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.provision :shell, inline: "sudo mkdir -p /home/vagrant/TeamCity/logs"
 	config.vm.provision :shell, inline: "sudo chown vagrant:vagrant /home/vagrant/TeamCity/ -R"
 	config.vm.provision :shell, inline: "/home/vagrant/TeamCity/bin/teamcity-server.sh start"
-	config.vm.provision :shell, inline: "/home/vagrant/TeamCity/buildAgent/bin/install.sh http://localhost:8111"
+	config.vm.provision :shell, inline: "cd /home/vagrant/TeamCity/buildAgent/bin/"
+	config.vm.provision :shell, inline: "sudo ./install.sh http://localhost:8111"
 end
