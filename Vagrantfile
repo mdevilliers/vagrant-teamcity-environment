@@ -1,20 +1,32 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Install these plugins
+# vagrant plugin install vagrant-hostmanager
+
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-	teamcity_version = "8.0.5"
+	#Setup hostmanager config to update the host files
+	config.hostmanager.enabled = true
+	config.hostmanager.manage_host = true
+	config.hostmanager.ignore_private_ip = false
+	config.hostmanager.include_offline = true
+	config.vm.provision :hostmanager
 
-	config.vm.box = "precise64"
-	config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-	
+	teamcity_version = "8.1.3"
+
+	config.vm.box = 'hashicorp/precise64'
+ 	
+ 	config.vm.hostname = 'tc'
+  	config.vm.network :private_network, ip: '192.168.0.14'
+	config.vm.network :public_network, guest: 8111, host: 9000
+
 	config.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", 2048,  "--cpus", "1"]
   	end
 
-	config.vm.network :public_network, guest: 8111, host: 9000
 	config.vm.provision :shell, inline: "sudo apt-get update -y"
 	config.vm.provision :shell, inline: "sudo apt-get install openjdk-7-jre-headless -y"
 	config.vm.provision :shell, inline: "wget http://download.jetbrains.com/teamcity/TeamCity-#{teamcity_version}.tar.gz"
